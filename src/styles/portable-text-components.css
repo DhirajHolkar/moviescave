@@ -1,0 +1,26 @@
+.blogsection-image-container{
+    margin: 20px 0;
+}
+.blogsection-image{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+.blogsection-video-container{
+    margin: 20px 0;
+}
+.blogsection-list-container{
+    padding-left: 20px;
+    margin: 20px 0;
+}
+.blogsection-list{
+    margin-bottom: 8px;
+}
+.blogsection-block-container{
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    line-height: 1.6;
+}
+.blogsection-heading-h5{
+    font-size: 1.6rem;
+}

@@ -1,0 +1,103 @@
+.anime-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+   
+  .anime-filters {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    overflow-x: auto;
+  }
+
+
+  .anime-filters::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .anime-filters-type{
+    font-size: 2rem;
+  }
+  
+  .anime-filters select {
+    padding: 8px 12px;
+    font-size: 16px;
+    width: 200px;
+
+  }
+
+  .anime-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 25px;
+    margin-top: 50px;
+  }
+  
+  .anime-card {
+    border: 1px solid #ddd;
+    overflow: hidden;
+    text-align: center;
+    background-color: #fff;
+  }
+ 
+  .anime-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .anime-card a{
+    text-decoration: none;
+  }
+  
+  .anime-card div {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .anime-card p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .anime-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .anime-pagination button {
+    background-color: #f0f0f0;
+    border: none;
+    margin: 0 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .anime-pagination button.active {
+    background-color: rgb(100,100,255);
+    color: white;
+  }
+  
+  .anime-pagination button:hover {
+    background-color: rgb(150,150,255);
+    color: white;
+  }
+  
+
+  
+/* *********************************************************************************** */
+
+
+
+
+@media (max-width:800px){
+  .anime-filters{
+    justify-content: unset;
+  }
+}
