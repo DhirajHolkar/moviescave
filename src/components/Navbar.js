@@ -32,8 +32,8 @@ export default function Navbar() {
 
         <div className="navbar__logo navbar-item">
           <Link href="/">
-            <img src="movies cave logo n.png" alt="" className="navbar-large-logo" />
-            <img src="movies cave.png" alt="" className="navbar-small-logo" />
+            <img src="bingecave-logo.png" alt="" className="navbar-large-logo" />
+            <img src="bingecave-icon.png" alt="" className="navbar-small-logo" />
           </Link>
         </div>
 
