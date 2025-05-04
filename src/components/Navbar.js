@@ -38,8 +38,6 @@ export default function Navbar() {
         </div>
 
         <div className="navbar__links navbar-item">
-          <Link href="/movies">Movies</Link>
-          <Link href="/tvshows">TV Shows</Link>
           <Link href="/anime">Anime</Link>
           <Link href="/game">Game</Link>
         </div>
