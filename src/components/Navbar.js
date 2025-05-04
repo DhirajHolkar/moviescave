@@ -4,12 +4,16 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import '../styles/Navbar.css';
+import { usePathname } from 'next/navigation';
+
 
 export default function Navbar() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false); // Added sidebar state
   const router = useRouter();
+  const pathname = usePathname();
+
 
   const handleSearch = (e) => {
     e.preventDefault(); 
@@ -37,10 +41,14 @@ export default function Navbar() {
           </Link>
         </div>
 
+        
+
         <div className="navbar__links navbar-item">
-          <Link href="/anime">Anime</Link>
-          <Link href="/game">Game</Link>
+          <Link href="/" className={pathname === '/' ? 'active-link' : ''}>Blogs</Link>
+          <Link href="/anime" className={pathname === '/anime' ? 'active-link' : ''}>Anime</Link>
+          <Link href="/game" className={pathname === '/game' ? 'active-link' : ''}>Game</Link>
         </div>
+
 
         <div className="navbar__search navbar-item">
           <form onSubmit={handleSearch} style={{ display: 'flex' }}>

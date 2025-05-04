@@ -41,6 +41,13 @@
   cursor: pointer;
 }
 
+/* Highlight active link with a blue underline */
+.navbar__links a.active-link {
+  border-bottom: 2px solid blue;
+  padding-bottom: 4px;
+  color: blue;
+}
+
 
 
 
