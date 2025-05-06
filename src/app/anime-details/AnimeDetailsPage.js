@@ -51,9 +51,9 @@ const AnimeDetailsPage = () => {
 
         <div className="anime-details-info">
           <h1>{anime.title}</h1>
+          <p><strong>Name:</strong> {anime.title}</p>
           <p><strong>Year:</strong> {anime.year}</p>
           <p><strong>Studio:</strong> {anime.studio}</p>
-          <p><strong>Revenue:</strong> ${anime.revenue?.toLocaleString()}</p>
           <p><strong>Country:</strong> {anime.country}</p>
           <p><strong>Director:</strong> {anime.director}</p>
           <p><strong>Genre:</strong> {anime.genre?.join(', ')}</p>
