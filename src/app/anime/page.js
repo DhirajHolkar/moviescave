@@ -8,7 +8,6 @@ import '../../styles/anime-page.css';
 const AnimePage = () => {
   const [animeList, setAnimeList] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -44,15 +43,13 @@ const AnimePage = () => {
     fetchData();
   }, []);
 
-  const genres = ['All', 'Adventure', 'Romance', 'Action', 'Fantasy'];
-  const countries = ['All', 'Japan', 'USA', 'South Korea'];
-  const years = ['All', 2020, 2021, 2022, 2023];
+  const genres = ['All', 'Adventure', 'Romance', 'Action', 'Fantasy', 'Sci-Fi', 'Thriller', 'Mecha', 'Shonen', 'Horror', 'Slice of Life'];
+  const years = ['All', 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
 
   const filteredAnime = animeList.filter((anime) => {
     const genreMatch = selectedGenre === '' || selectedGenre === 'All' || (anime.genre && anime.genre.includes(selectedGenre));
-    const countryMatch = selectedCountry === '' || selectedCountry === 'All' || anime.country === selectedCountry;
     const yearMatch = selectedYear === '' || selectedYear === 'All' || anime.year?.toString() === selectedYear.toString();
-    return genreMatch && countryMatch && yearMatch;
+    return genreMatch && yearMatch;
   });
 
   const indexOfLastAnime = currentPage * animePerPage;
@@ -72,15 +69,6 @@ const AnimePage = () => {
         <select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)}>
           {genres.map((genre) => (
             <option key={genre} value={genre}>{genre}</option>
-          ))}
-        </select>
-        </div>
-
-        <div>
-        <div className='anime-filters-type'>Country</div>
-        <select value={selectedCountry} onChange={(e) => setSelectedCountry(e.target.value)}>
-          {countries.map((country) => (
-            <option key={country} value={country}>{country}</option>
           ))}
         </select>
         </div>
