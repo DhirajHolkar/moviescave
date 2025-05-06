@@ -35,7 +35,7 @@ export default function GamePage() {
   }, []);
 
   if (questions.length === 0) {
-    return <div>Loading...</div>;
+    return <div className='game-page-loading'>Loading Post...</div>;
   }
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -92,6 +92,12 @@ export default function GamePage() {
         <div className="game-half game-left">
 
           <div className="game-question">{currentQuestion.question}</div>
+
+          {currentQuestion.imageUrl && (
+          <div className="question-image">
+          <img src={currentQuestion.imageUrl} alt="Question visual hint" />
+          </div>
+          )}
 
           <div className="options">
             {options.map((option, index) => {

@@ -18,7 +18,7 @@ export default function BlogPostContent() {
         const query = `
           *[_type == "blogsStandardDetails" && slug.current == $slug][0] {
             title,
-            introText,
+            intro,
             content[] {
               ...,
               _type == "image" => {
@@ -50,7 +50,7 @@ export default function BlogPostContent() {
   return (
     <div className="blogstandard-container">
       <h1 className="blogstandard-title">{post.title}</h1>
-      <p className="blogstandard-intro">{post.introText}</p>
+      <p className="blogstandard-intro">{post.intro}</p>
 
       <div className="blogstandard-content">
         <PortableText value={post.content} components={PortableTextComponents} />

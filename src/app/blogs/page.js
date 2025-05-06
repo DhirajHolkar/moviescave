@@ -7,31 +7,33 @@ export default function BlogPage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const standardPosts = await client.fetch(`
-
-          *[_type == "blogsStandard"] {
+          
+          
+          *[_type == "blogsStandardDetails"] {
             _id,
             _type,
             title,
             slug,
-
-            "image":image.asset->url,
+            "image":mainImage.asset->url,
             description
           }
         `);
+
+        // "image": items[0].image.asset->url,
         
         const listPosts = await client.fetch(`
-          *[_type == "blogsList"] {
+          *[_type == "blogsListDetails"] {
             _id,
             _type,
             title,
             slug,
-            // "image": items[0].image.asset->url,
-            "image": image.asset->url,
-            description
+            "image":mainImage.asset->url,
+            intro
           }
         `);
 
@@ -42,7 +44,7 @@ export default function BlogPage() {
             title: post.title,
             slug: post.slug?.current || '',
             image: post.image,
-            description: post.description,
+            intro: post.intro,
           })),
           ...listPosts.map(post => ({
             id: post._id,
@@ -50,7 +52,7 @@ export default function BlogPage() {
             title: post.title,
             slug: post.slug?.current || '',
             image: post.image,
-            description: post.description,
+            intro: post.intro,
           })),
         ];
 
@@ -96,7 +98,7 @@ export default function BlogPage() {
             {post.image && <img src={post.image} alt={post.title} className='blogs-image' />}
             <div className='blogs-title'>{post.title}</div>
             <p className='blogs-description'>
-              {post.description?.length > 100 ? post.description.slice(0, 100) + '...' : post.description}
+              {post.intro?.length > 100 ? post.intro.slice(0, 100) + '...' : post.intro}
             </p>
 
 

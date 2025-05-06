@@ -37,7 +37,7 @@ const AnimeDetailsPage = () => {
   }, [slug]);
 
   if (!anime) {
-    return <div className="anime-detaills-loading">Loading Post...</div>;
+    return <div className="anime-details-loading">Loading Post...</div>;
   }
 
   return (

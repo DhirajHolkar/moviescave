@@ -16,37 +16,23 @@ function SearchContent() {
   const queries = {
     blogs: `
       *[
-        (_type == "blogsList" || _type == "blogsStandard") && $query in tags
+        (_type == "blogsListDetails" || _type == "blogsStandardDetails") && $query in tags
       ]{
         title,
         "slug": slug.current,
-        "image": image.asset->url,
-        description,
+        "image": mainImage.asset->url,
+        intro,
         _type
       }
     `,
-    movies: `
-      *[_type == "movies" && $query in tags]{
-        title,
-        "slug": slug.current,
-        "image": image.asset->url,
-        description
-      }
-    `,
-    tvshows: `
-      *[_type == "tvshows" && $query in tags]{
-        title,
-        "slug": slug.current,
-        "image": image.asset->url,
-        description
-      }
-    `,
+
+
     anime: `
-      *[_type == "animes" && $query in tags]{
+      *[_type == "animesDetails" && $query in tags]{
         title,
         "slug": slug.current,
         "image": image.asset->url,
-        description
+        "intro":description
       }
     `,
   };
@@ -71,12 +57,11 @@ function SearchContent() {
   }, [query, selectedCategory]);
 
   const getDetailsLink = (category, item) => {
-    if (category === 'movies') return `/movies-details?slug=${item.slug}`;
-    if (category === 'tvshows') return `/tvshows-details?slug=${item.slug}`;
+
     if (category === 'anime') return `/anime-details?slug=${item.slug}`;
     if (category === 'blogs') {
-      if (item._type === 'blogsList') return `/blog-list?slug=${item.slug}`;
-      if (item._type === 'blogsStandard') return `/blog-standard-post?slug=${item.slug}`;
+      if (item._type === 'blogsListDetails') return `/blog-list?slug=${item.slug}`;
+      if (item._type === 'blogsStandardDetails') return `/blog-standard-post?slug=${item.slug}`;
     }
     return '/';
   };
@@ -85,7 +70,9 @@ function SearchContent() {
     <div className="search-container">
       {/* Category Filters */}
       <div className="search-filters">
-        {['blogs', 'movies', 'tvshows', 'anime'].map((category) => (
+
+        {['blogs', 
+          'anime'].map((category) => (
           <button
             key={category}
             className={`search-filter-button ${selectedCategory === category ? 'active' : ''}`}
@@ -99,7 +86,7 @@ function SearchContent() {
       {/* Search Results */}
       <div className="search-results-container">
         {loading ? (
-          <p className="search-loading">Loading...</p>
+          <p className="search-loading">Loading Post...</p>
         ) : results.length > 0 ? (
           results.filter((item) => item.slug).map((item) => (
             <Link
@@ -111,12 +98,12 @@ function SearchContent() {
                 <img src={item.image} alt={item.title} className="search-square-image" />
               </div>
               <div className="search-result-content">
-                <h3 className="search-result-title">{item.title}</h3>
-                {item.description && (
+                <div className="search-result-title">{item.title}</div>
+                {item.intro && (
                   <p className="search-result-description">
-                    {item.description.length > 150
-                      ? item.description.slice(0, 150) + '...'
-                      : item.description}
+                    {item.intro.length > 150
+                      ? item.intro.slice(0, 150) + '...'
+                      : item.intro}
                   </p>
                 )}
               </div>
@@ -132,7 +119,7 @@ function SearchContent() {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div className="search-loading">Loading...</div>}>
+    <Suspense fallback={<div className="search-loading">Loading Post...</div>}>
       <SearchContent />
     </Suspense>
   );

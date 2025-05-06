@@ -2,10 +2,11 @@
 
 import React, { Suspense } from 'react';
 import AnimeDetailsPage from './AnimeDetailsPage';
+import '../../styles/anime-details.css'
 
 export default function Page() {
   return (
-    <Suspense fallback={<div className="loading">Loading anime details...</div>}>
+    <Suspense fallback={<div className="anime-details-loading">Loading Post...</div>}>
       <AnimeDetailsPage />
     </Suspense>
   );

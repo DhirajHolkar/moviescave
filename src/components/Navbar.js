@@ -84,9 +84,9 @@ export default function Navbar() {
           <img src="close-icon.svg" alt="close" />
         </div>
 
-        <Link href="/movies" onClick={toggleSidebar}>Movies</Link>
-        <Link href="/tvshows" onClick={toggleSidebar}>TV Shows</Link>
+        <Link href="/blogs" onClick={toggleSidebar}>Blogs</Link>
         <Link href="/anime" onClick={toggleSidebar}>Anime</Link>
+        <Link href="/game" onClick={toggleSidebar}>Game</Link>
 
       </div>
 
