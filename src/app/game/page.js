@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import {client} from '../../../sanity'; // Adjust the path if your sanity.js is located elsewhere
+import {client} from '../../../sanity.js'; // Adjust the path if your sanity.js is located elsewhere
 import '../../styles/guess-it-game.css'; // Ensure this path matches your CSS file location
 
 export default function GamePage() {

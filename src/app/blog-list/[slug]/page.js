@@ -1,13 +1,13 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { client } from '../../../sanity'; // adjust if path different
-import '../../styles/blog-list-page.css';
 
-const BlogListPostPage = () => {
-  const searchParams = useSearchParams();
-  const slug = searchParams.get('slug');
+import React, { useEffect, useState, Suspense } from 'react';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { client } from '../../../../sanity.js'; // adjust if needed
+import '../../../styles/blog-list-page.css';
+
+function BlogListPostContent() {
+    const {slug} = useParams();
 
   const [post, setPost] = useState(null);
 
@@ -65,7 +65,7 @@ const BlogListPostPage = () => {
           return (
             <Link
               key={index}
-              href={`${redirectBase}?slug=${itemSlug}`}
+              href={`${redirectBase}/${itemSlug}`}
               className='bloglist-link'
             >
               {item.imageUrl && (
@@ -85,6 +85,12 @@ const BlogListPostPage = () => {
       </div>
     </div>
   );
-};
+}
 
-export default BlogListPostPage;
+export default function Page() {
+  return (
+    <Suspense fallback={<p className="loading">Loading post...</p>}>
+      <BlogListPostContent />
+    </Suspense>
+  );
+}

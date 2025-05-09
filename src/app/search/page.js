@@ -3,7 +3,7 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { client } from '../../../sanity';
+import { client } from '../../../sanity.js';
 import '../../styles/search.css';
 
 function SearchContent() {

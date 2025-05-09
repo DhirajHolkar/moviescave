@@ -1,114 +1,37 @@
-'use client';
+const fs = require('fs')
+const path = require('path')
+const client = require('../sanity.js') // Make sure your sanity.js uses module.exports
 
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { client } from '../../../sanity';
-import '../../styles/anime-page.css';
+const siteUrl = 'https://bingecave.com'
 
-const AnimePage = () => {
-  const [animeList, setAnimeList] = useState([]);
-  const [selectedGenre, setSelectedGenre] = useState('');
-  const [selectedYear, setSelectedYear] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+async function getSlugs() {
+  const blogList = await client.fetch(`*[_type == "blogsListDetails"]{ "slug": slug.current }`)
+  const standardPosts = await client.fetch(`*[_type == "blogsStandardDetails"]{ "slug": slug.current }`)
+  const animes = await client.fetch(`*[_type == "animesDetails"]{ "slug": slug.current }`)
 
-  const animePerPage = 10;
+  return { blogList, standardPosts, animes }
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const query = `*[_type == "animesDetails"]{
-          _id,
-          title,
-          slug,
-          country,
-          year,
-          revenue,
-          director,
-          studio,
-          genre,
-          image {
-            asset -> {
-              url
-            }
-          },
-          description
-        }`;
-        const data = await client.fetch(query);
-        setAnimeList(data);
-      } catch (error) {
-        console.error('Error fetching anime:', error);
-      }
-    };
+async function generateSitemap() {
+  const { blogList, standardPosts, animes } = await getSlugs()
 
-    fetchData();
-  }, []);
+  const staticPaths = [``, `/about`]
+  const dynamicPaths = [
+    ...blogList.map(post => `/blog-list/${post.slug}`),
+    ...standardPosts.map(post => `/blog-standard-post/${post.slug}`),
+    ...animes.map(anime => `/anime/${anime.slug}`),
+  ]
 
-  const genres = ['All', 'Adventure', 'Romance', 'Action', 'Fantasy', 'Sci-Fi', 'Thriller', 'Mecha', 'Shonen', 'Horror', 'Slice of Life'];
-  const years = ['All', 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025];
+  const allPaths = [...staticPaths, ...dynamicPaths]
 
-  const filteredAnime = animeList.filter((anime) => {
-    const genreMatch = selectedGenre === '' || selectedGenre === 'All' || (anime.genre && anime.genre.includes(selectedGenre));
-    const yearMatch = selectedYear === '' || selectedYear === 'All' || anime.year?.toString() === selectedYear.toString();
-    return genreMatch && yearMatch;
-  });
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${allPaths.map(path => `<url><loc>${siteUrl}${path}</loc></url>`).join('\n')}
+</urlset>`
 
-  const indexOfLastAnime = currentPage * animePerPage;
-  const indexOfFirstAnime = indexOfLastAnime - animePerPage;
-  const currentAnime = filteredAnime.slice(indexOfFirstAnime, indexOfLastAnime);
+  const filePath = path.join(process.cwd(), 'public', 'sitemap.xml')
+  fs.writeFileSync(filePath, sitemap, 'utf8')
+  console.log('✅ sitemap.xml generated successfully.')
+}
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  return (
-    <div className="anime-container">
-
-      {/* Filters */}
-      <div className="anime-filters">
-
-        <div>
-        <div className='anime-filters-type'>Genre</div>
-        <select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)}>
-          {genres.map((genre) => (
-            <option key={genre} value={genre}>{genre}</option>
-          ))}
-        </select>
-        </div>
-
-        <div>
-        <div className='anime-filters-type'>Year</div>
-        <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
-          {years.map((year) => (
-            <option key={year} value={year}>{year}</option>
-          ))}
-        </select>
-        </div>
-        </div>
-
-      {/* Grid */}
-      <div className="anime-grid">
-        {currentAnime.map((anime) => (
-          <div key={anime._id} className="anime-card">
-
-            
-
-            <Link href={`/anime-details?slug=${anime.slug.current}`}>
-            <img src={anime.image?.asset?.url} alt={anime.title} />
-            <div>{anime.title}</div>
-            </Link>
-
-          </div>
-        ))}
-      </div>
-
-      {/* Pagination */}
-      <div className="anime-pagination">
-        {Array.from({ length: Math.ceil(filteredAnime.length / animePerPage) }, (_, index) => (
-          <button key={index + 1} onClick={() => paginate(index + 1)} className={currentPage === index + 1 ? 'active' : ''}>
-            {index + 1}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-export default AnimePage;
+generateSitemap().catch(console.error)

@@ -1,12 +1,13 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { client } from '../../../sanity';
-import { useSearchParams } from 'next/navigation';
-import '../../styles/anime-details.css';
 
-const AnimeDetailsPage = () => {
-  const searchParams = useSearchParams();
-  const slug = searchParams.get('slug');
+import React, { useEffect, useState, Suspense } from 'react';
+import { client } from '../../../../sanity.js';
+import { useParams } from 'next/navigation';
+import '../../../styles/anime-details.css';
+
+function AnimeDetailsContent() {
+
+    const {slug} = useParams();
 
   const [anime, setAnime] = useState(null);
 
@@ -44,7 +45,6 @@ const AnimeDetailsPage = () => {
     <div className="anime-details-container">
 
       <div className="anime-details-row">
-
         <div className="anime-details-image">
           <img src={anime.imageUrl} alt={anime.title} />
         </div>
@@ -58,7 +58,6 @@ const AnimeDetailsPage = () => {
           <p><strong>Director:</strong> {anime.director}</p>
           <p><strong>Genre:</strong> {anime.genre?.join(', ')}</p>
         </div>
-
       </div>
 
       <div className="anime-details-description">
@@ -68,6 +67,20 @@ const AnimeDetailsPage = () => {
 
     </div>
   );
-};
+}
 
-export default AnimeDetailsPage;
+export default function Page() {
+  return (
+    <Suspense fallback={<div className="anime-details-loading">Loading Post...</div>}>
+      <AnimeDetailsContent />
+    </Suspense>
+  );
+}
+
+
+
+
+
+
+
+

@@ -1,16 +1,15 @@
 'use client';
 
+import { useEffect, useState, Suspense } from 'react';
+import { useParams } from 'next/navigation';
 import { client } from '../../../sanity';
 import { PortableText } from '@portabletext/react';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { PortableTextComponents } from '../../components/PortableTextComponents';
 import '../../styles/blogstandard-page.css';
 
-export default function BlogPostContent() {
+function BlogPostContent() {
   const [post, setPost] = useState(null);
-  const searchParams = useSearchParams();
-  const slug = searchParams.get('slug');
+  const {slug} = useParams();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -56,5 +55,13 @@ export default function BlogPostContent() {
         <PortableText value={post.content} components={PortableTextComponents} />
       </div>
     </div>
+  );
+}
+
+export default function BlogPostPage() {
+  return (
+    <Suspense fallback={<div>Loading post...</div>}>
+      <BlogPostContent />
+    </Suspense>
   );
 }
