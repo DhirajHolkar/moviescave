@@ -2,10 +2,10 @@
 
 import { useEffect, useState, Suspense } from 'react';
 import { useParams } from 'next/navigation';
-import { client } from '../../../sanity';
+import { client } from '../../../../sanity';
 import { PortableText } from '@portabletext/react';
-import { PortableTextComponents } from '../../components/PortableTextComponents';
-import '../../styles/blogstandard-page.css';
+import { PortableTextComponents } from '../../../components/PortableTextComponents';
+import '../../../styles/blogstandard-page.css';
 
 function BlogPostContent() {
   const [post, setPost] = useState(null);
