@@ -19,7 +19,7 @@ export default function BlogPage() {
             title,
             slug,
             "image": mainImage.asset->url,
-            description
+            intro
           }
         `);
 
@@ -41,7 +41,7 @@ export default function BlogPage() {
             title: post.title,
             slug: post.slug?.current || '',
             image: post.image,
-            intro: post.description, // using 'description' for standard posts
+            intro: post.intro, // using 'description' for standard posts
           })),
           ...listPosts.map(post => ({
             id: post._id,
